@@ -1,3 +1,6 @@
+import csv
+
+
 class Item:
     pay_rate = 0.8  # Pay rate after 20% discount
     all = []
@@ -26,8 +29,41 @@ class Item:
         )  # Take note of how I acess a pay_rate attribute inside a method (Item.pay_rate).
         #  Though better to add self so that it is accessed from the instance level.
 
-    def __str__(self):
-        return f"Item('{self.name}',{self.price},{self.quantity})"
+    # Defining a class method
+    @classmethod
+    def instanciate_from_csv(cls):
+        with open("items.csv", "r") as file:
+            content = csv.DictReader(file)
+            items = list(content)
+        for item in items:
+            Item(
+                name=item["name"],
+                price=float(item["price"]),
+                quantity=int(item["quantity"]),
+            )
+
+    @staticmethod
+    def is_integer(num):
+        if isinstance(num, float):
+            return num.is_integer()
+        elif isinstance(num, int):
+            return True
+        else:
+            return False
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.name}',{self.price},{self.quantity})"
+
+
+class Phone(Item):
+
+    def __init__(self, name, price, broken_phones=0, quantity=0):
+        super().__init__(name, price, quantity)
+        self.broken_phones = broken_phones
+
+    def phones_for_self(self):
+        self.quantity -= self.broken_phones
+        return f"Good phones:{self.quantity}"
 
 
 # print(item1.calculate_total_price())
@@ -45,14 +81,23 @@ class Item:
 # item2.apply_discount()
 # print(item2.price)
 
-item1 = Item("Phone", 100, 3)
-item2 = Item("Laptop", 2000, 4)
-item3 = Item("Cable", 10, 5)
-item4 = Item("Mouse", 50, 5)
-item5 = Item("Keyboard", 75, 5)
+# item1 = Item("Phone", 100, 3)
+# item2 = Item("Laptop", 2000, 4)
+# item3 = Item("Cable", 10, 5)
+# item4 = Item("Mouse", 50, 5)
+# item5 = Item("Keyboard", 75, 5)
 
-# Think of how best to return them in a list.
+#  Think of how best to return them in a list.
 # print(Item.all)
-# Listing all the names of the instances.
-for instance in Item.all:
-    print(instance.name)
+
+# # Listing all the names of the instances.
+# for instance in Item.all:
+#     print(instance.name)
+# Item.instanciate_from_csv()
+# print(Item.all)
+# print(Item.is_integer(5.5))
+
+phone1 = Phone("Sumsang", 500, 2, 5)
+print(phone1.phones_for_self())
+print(phone1.calculate_total_price())
+print(Item.all)
