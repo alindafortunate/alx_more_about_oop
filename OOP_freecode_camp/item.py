@@ -12,7 +12,7 @@ class Item:
 
         # Assign to self object
         self.__name = name
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
         # Return them in a list format.
@@ -20,20 +20,35 @@ class Item:
             self
         )  # Not that self is the same as the instance that will be created.
 
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, value):
+        self.__price = value
+
+    def increment_price(self, increment_value):
+        self.__price = self.__price + self.__price * increment_value
+        
+
     @property  # Property decorator for read only.
     def name(self):
         return self.__name
 
     @name.setter
     def name(self, value):
-        self.__name = value
+        if len(value) > 10:
+            raise Exception("Your name is more than 10 characters.")
+        else:
+            self.__name = value
 
     def calculate_total_price(self):
-        return self.price * self.quantity
+        return self.__price * self.quantity
 
     def apply_discount(self):
-        self.price = (
-            self.price * self.pay_rate
+        self.__price = (
+            self.__price * self.pay_rate
         )  # Take note of how I acess a pay_rate attribute inside a method (Item.pay_rate).
         #  Though better to add self so that it is accessed from the instance level.
 
@@ -61,5 +76,5 @@ class Item:
 
     def __repr__(self):
         return (
-            f"{self.__class__.__name__}('{self.__name}',{self.price},{self.quantity})"
+            f"{self.__class__.__name__}('{self.__name}',{self.__price},{self.quantity})"
         )
