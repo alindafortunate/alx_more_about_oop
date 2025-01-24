@@ -30,7 +30,6 @@ class Item:
 
     def increment_price(self, increment_value):
         self.__price = self.__price + self.__price * increment_value
-        
 
     @property  # Property decorator for read only.
     def name(self):
@@ -73,6 +72,22 @@ class Item:
             return True
         else:
             return False
+
+    def __connect_to_smtp_server(self, smtp_server):
+        pass
+
+    def __prepare_message_body(self):
+        return f"""
+                Hello John.............
+                """
+
+    def __send(self):
+        pass
+
+    def send_email(self):
+        self.__connect_to_smtp_server(smtp_server="aas")
+        self.__prepare_message_body()
+        self.__send()
 
     def __repr__(self):
         return (
