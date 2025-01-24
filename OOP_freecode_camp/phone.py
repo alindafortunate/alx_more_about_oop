@@ -3,7 +3,7 @@ from item import Item
 
 class Phone(Item):
 
-    def __init__(self, name, price, broken_phones=0, quantity=0):
+    def __init__(self, name, price, quantity=0, broken_phones=0):
         super().__init__(name, price, quantity)
         self.broken_phones = broken_phones
 
